@@ -33,7 +33,10 @@ namespace TransparentTaskbar
             while (true) { 
                 taskbar = FindWindow("Shell_TrayWnd", null);
                 SetWindowCompositionAttribute(taskbar, ref data);
-                Thread.Sleep(1000);
+
+                taskbar = FindWindow("Shell_SecondaryTrayWnd", null);
+                SetWindowCompositionAttribute(taskbar, ref data);
+                Thread.Sleep(2000);
             }
            Marshal.FreeHGlobal(accentPtr);
              
@@ -74,9 +77,12 @@ namespace TransparentTaskbar
 
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
-        [DllImport("User32.dll", EntryPoint = "FindWindow")]
 
+        [DllImport("User32.dll", EntryPoint = "FindWindow")]
         public static extern IntPtr FindWindow(string className, string windowName);
+
+        [DllImport("User32.dll", EntryPoint = "GetWindow")]
+        public static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
 
     }
 }
